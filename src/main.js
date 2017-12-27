@@ -5,6 +5,27 @@ let numberOfCols=120;
 
 let animator=undefined;
 
+const isValidXcord = function (xCordOfHead) {
+  return xCordOfHead >0 && xCordOfHead<numberOfCols-1;
+}
+
+const isValidYcord = function (yCordOfHead) {
+  return yCordOfHead >0 && yCordOfHead < numberOfRows-1;
+}
+
+const isItWallBorder = function (position) {
+  let coord=position.getCoord();
+  return !(isValidXcord(coord[0])&&isValidYcord(coord[1]));
+}
+
+const isHeadTouchingWall = function (position) {
+  return isItWallBorder(position);
+}
+
+const doesHeadAtInavlidPos = function (head) {
+  return (isHeadTouchingWall(head)||snake.isHeadEatingBody());
+}
+
 const animateSnake=function() {
   let oldHead=snake.getHead();
   let oldTail=snake.move();
@@ -12,11 +33,15 @@ const animateSnake=function() {
   paintBody(oldHead);
   unpaintSnake(oldTail);
   paintHead(head);
+  if(doesHeadAtInavlidPos(head))
+    stopGame();
   if(head.isSameCoordAs(food)) {
     snake.grow();
     createFood(numberOfRows,numberOfCols);
     drawFood(food);
   }
+
+
 }
 
 const changeSnakeDirection=function(event) {
@@ -52,6 +77,10 @@ const createSnake=function() {
 
 const createFood=function(numberOfRows,numberOfCols) {
   food=generateRandomPosition(numberOfCols,numberOfRows);
+}
+
+let stopGame=function () {
+  clearInterval(animator);
 }
 
 const startGame=function() {
