@@ -81,6 +81,13 @@ const createFood=function(numberOfRows,numberOfCols) {
 
 let stopGame=function () {
   clearInterval(animator);
+  let replay=document.getElementById('replay');
+  replay.onclick=restartGame;
+  replay.style['visibility']="visible";
+}
+
+const restartGame= function () {
+  location.reload();
 }
 
 const startGame=function() {
