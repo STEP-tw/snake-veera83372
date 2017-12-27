@@ -5,6 +5,10 @@ const randomDirection=function() {
   return _directions[index];
 }
 
+const isNumberBetween = function (number,min,max) {
+  return number>min&&number<max;
+}
+
 const Position=function(x,y,direction) {
   this.x=x;
   this.y=y;
@@ -42,6 +46,12 @@ Position.prototype.isSameCoordAs=function(other) {
 Position.prototype.getCoord=function() {
   return [this.x,this.y];
 }
+
+Position.prototype.isItBetweenMaxAndMinCoord = function (maxX,maxY) {
+  let isXBetweenMaxAndMin = isNumberBetween(this.x,0,maxX);
+  let isYBetweenMaxAndMin = isNumberBetween(this.y,0,maxY);
+  return isXBetweenMaxAndMin && isYBetweenMaxAndMin;
+};
 
 const generateRandomPosition=function(maxX,maxY) {
   let x=generateRandomNumberBetween(0,maxX);
