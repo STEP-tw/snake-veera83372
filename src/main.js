@@ -5,25 +5,19 @@ let numberOfCols=120;
 
 let animator=undefined;
 
-const isValidXcord = function (xCordOfHead) {
-  return xCordOfHead >0 && xCordOfHead<numberOfCols-1;
+
+const isSnakeHittingWall = function (position) {
+  let maxX=numberOfCols-1;
+  let maxY=numberOfRows-1;
+  return !position.isItBetweenMaxAndMinCoord(maxX,maxY);
 }
 
-const isValidYcord = function (yCordOfHead) {
-  return yCordOfHead >0 && yCordOfHead < numberOfRows-1;
+const doesSnakeHasCollide = function (head) {
+  return (isSnakeHittingWall(head)||snake.isItEatingItself());
 }
 
-const isItWallBorder = function (position) {
-  let coord=position.getCoord();
-  return !(isValidXcord(coord[0])&&isValidYcord(coord[1]));
-}
-
-const isHeadTouchingWall = function (position) {
-  return isItWallBorder(position);
-}
-
-const doesHeadAtInavlidPos = function (head) {
-  return (isHeadTouchingWall(head)||snake.isHeadEatingBody());
+const stopGameIfSnakeHasCollide = function (head) {
+  if(doesSnakeHasCollide(head)) stopGame();
 }
 
 const animateSnake=function() {
@@ -33,8 +27,7 @@ const animateSnake=function() {
   paintBody(oldHead);
   unpaintSnake(oldTail);
   paintHead(head);
-  if(doesHeadAtInavlidPos(head))
-    stopGame();
+  stopGameIfSnakeHasCollide(head);
   if(head.isSameCoordAs(food)) {
     snake.grow();
     createFood(numberOfRows,numberOfCols);
