@@ -48,8 +48,8 @@ Position.prototype.getCoord=function() {
 }
 
 Position.prototype.isItBetweenMaxAndMinCoord = function (maxX,maxY) {
-  let isXBetweenMaxAndMin = isNumberBetween(this.x,0,maxX);
-  let isYBetweenMaxAndMin = isNumberBetween(this.y,0,maxY);
+  let isXBetweenMaxAndMin = isNumberBetween(this.x,-1,maxX);
+  let isYBetweenMaxAndMin = isNumberBetween(this.y,-1,maxY);
   return isXBetweenMaxAndMin && isYBetweenMaxAndMin;
 };
 

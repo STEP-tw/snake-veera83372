@@ -7,33 +7,28 @@ let animator=undefined;
 
 
 const doesSnakeCollidedWithWall = function (position) {
-  let maxX=numberOfCols-1;
-  let maxY=numberOfRows-1;
-  return !position.isItBetweenMaxAndMinCoord(maxX,maxY);
+  return !position.isItBetweenMaxAndMinCoord(numberOfCols,numberOfRows);
 }
 
-const doesSnakeCollided = function (head) {
-  return (doesSnakeCollidedWithWall(head)||snake.isEatingItself());
-}
-
-const stopGameIfSnakeCollided = function (head) {
-  if(doesSnakeCollided(head)) stopGame();
-}
 
 const animateSnake=function() {
   let oldHead=snake.getHead();
   let oldTail=snake.move();
   let head=snake.getHead();
+  if(doesSnakeCollidedWithWall(head)){
+    stopGame();
+    return;
+  }
   paintBody(oldHead);
   unpaintSnake(oldTail);
   paintHead(head);
-  stopGameIfSnakeCollided(head);
   if(head.isSameCoordAs(food)) {
     snake.grow();
     createFood(numberOfRows,numberOfCols);
     drawFood(food);
   }
-
+  if(snake.isEatingItself())
+    stopGame();
 
 }
 
